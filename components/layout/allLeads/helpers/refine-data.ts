@@ -2,7 +2,7 @@ import { CardItem } from "@/components/custom-ui/analytic-card/techno-analytic-c
 import { TechnoLeadType } from "@/components/custom-ui/lead-type-tag/techno-lead-type-tag";
 
 export const refineLeads = (data: any, assignedToDropdownData: any) => { // Modified parameters to get Assigned To Dropdown Data
-    const refinedLeads = data.leads.map((lead: any, index: number) => {
+    const refinedLeads = data.leads?.map((lead: any, index: number) => {
         const assignedToUser = assignedToDropdownData?.find((user: any) => user._id === lead.assignedTo);
         const assignedToName = assignedToUser ? assignedToUser.name : 'N/A'; // Or handle default as needed
 
