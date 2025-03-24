@@ -52,16 +52,17 @@ const StudentDetailsFields: FormFieldInterface[] = [
         .nonempty('Student Name is required'),
     },
     {
-        name: 'dateOfBirth',
-        label: 'Date of Birth',
-        style: 'col-span-2',
-        zodSchema: z.date(),
-    },
-    {
         name: 'studentPhoneNumber',
         label: 'Student Phone Number',
         style: 'col-span-2',
         zodSchema: contactNumberSchema,
+    },
+
+    {
+        name: 'emailId',
+        label: 'Email ID',
+        style: 'col-span-2',
+        zodSchema: z.string().email('Invalid email format').optional(),
     },
     {
         name: 'gender',
@@ -114,6 +115,12 @@ const StudentDetailsFields: FormFieldInterface[] = [
         .nonempty('Mother occupation is required'),
     },
     {
+        name: 'dateOfBirth',
+        label: 'Date of Birth',
+        style: 'col-span-2',
+        zodSchema: z.date(),
+    },
+    {
         name: 'category',
         label: 'Category',
         style: 'col-span-2',
@@ -126,10 +133,10 @@ const StudentDetailsFields: FormFieldInterface[] = [
         zodSchema: addressSchema,
     },
     {
-        name: 'emailId',
-        label: 'Email ID',
+        name: 'course',
+        label: 'Course',
         style: 'col-span-2',
-        zodSchema: z.string().email('Invalid email format').optional(),
+        zodSchema: z.nativeEnum(Course),
     },
     {
         name: 'reference',
@@ -137,21 +144,11 @@ const StudentDetailsFields: FormFieldInterface[] = [
         style: 'col-span-2',
         zodSchema: z.nativeEnum(AdmissionReference),
     },
-    {
-        name: 'course',
-        label: 'Course',
-        style: 'col-span-2',
-        zodSchema: z.nativeEnum(Course),
-    }
+    
 ]
 
 const AcademicDetailsFields: FormFieldInterface[] = [
-    {
-        name: 'educationLevel_10th',
-        label: 'Education Level (10th)',
-        style: 'col-span-2',
-        zodSchema: z.nativeEnum(EducationLevel).default(EducationLevel.Tenth),
-    },
+    
     {
         name: 'schoolCollegeName_10th',
         label: 'School Name (10th)',
@@ -185,12 +182,7 @@ const AcademicDetailsFields: FormFieldInterface[] = [
         zodSchema: z.array(z.string().min(1)).nonempty('Subjects cannot be empty'),
     },
     
-    {
-        name: 'educationLevel_12th',
-        label: 'Education Level (12th)',
-        style: 'col-span-2',
-        zodSchema: z.nativeEnum(EducationLevel).default(EducationLevel.TWELFTH),
-    },
+    
     {
         name: 'schoolCollegeName_12th',
         label: 'College Name (12th)',
@@ -224,12 +216,7 @@ const AcademicDetailsFields: FormFieldInterface[] = [
         zodSchema: z.array(z.string().min(1)).nonempty('Subjects cannot be empty'),
     },
     
-    {
-        name: 'educationLevel_Graduation',
-        label: 'Education Level (Graduation)',
-        style: 'col-span-2',
-        zodSchema: z.nativeEnum(EducationLevel).default(EducationLevel.Graduation),
-    },
+    
     {
         name: 'schoolCollegeName_Graduation',
         label: 'College Name (Graduation)',
