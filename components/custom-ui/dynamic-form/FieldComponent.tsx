@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 // Types
 import { JSX } from 'react';
 import { ZodString } from 'zod';
+import { CalendarDaysIcon } from 'lucide-react';
 
 interface FieldComponentProps {
   fieldType: string;
@@ -35,20 +36,20 @@ const fieldComponents: Record<
 > = {
   // String Field
   ZodString: ({ field, style, isDisabled }) => (
-    <Input type="text" {...field} className={style} disabled={isDisabled} />
+    <Input type="text" {...field}  className={`w-[407px] ${style}`} disabled={isDisabled} />
   ),
 
   // Number Field
   ZodNumber: ({ field, style, isDisabled }) => (
-    <Input type="number" {...field} className={style} disabled={isDisabled} />
+    <Input type="number" {...field}  className={`w-[407px] ${style}`} disabled={isDisabled} />
   ),
 
   // Boolean Field
-  ZodBoolean: ({ field, isDisabled }) => (
+  ZodBoolean: ({ field, style, isDisabled }) => (
     <Checkbox
       checked={field.value}
       onCheckedChange={field.onChange}
-      className="flex"
+      className={`w-[407px] ${style}`}
       disabled={isDisabled}
     />
   ),
@@ -57,7 +58,7 @@ const fieldComponents: Record<
   ZodEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <SelectTrigger>
+        <SelectTrigger  className={`w-[407px] ${style}`} disabled={isDisabled}>
           <SelectValue placeholder={`Select ${label}`} />
         </SelectTrigger>
         <SelectContent>
@@ -79,7 +80,7 @@ const fieldComponents: Record<
   ZodNativeEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <SelectTrigger>
+        <SelectTrigger  className={`w-[407px] ${style}`} disabled={isDisabled}>
           <SelectValue placeholder={`Select ${label}`} />
         </SelectTrigger>
         <SelectContent>
@@ -101,8 +102,8 @@ const fieldComponents: Record<
   ZodDate: ({ field, style, isDisabled, label }) => (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className={`w-[407px] ${style}`} disabled={isDisabled}>
-          {field.value ? format(field.value, 'PPP') : `Pick a ${label}`}
+        <Button icon={CalendarDaysIcon} variant="outline" className={`w-[407px] ${style}`} disabled={isDisabled}>
+          {field.value ? format(field.value, 'dd MMM yyyy') : label}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -124,7 +125,7 @@ const fieldComponents: Record<
           type="text"
           value={field.value ? field.value.join(', ') : ''}
           onChange={(e) => field.onChange(e.target.value.split(',').map((item) => item.trim()))}
-          className={style}
+          className={`w-[407px] ${style}`}
           disabled={isDisabled}
           placeholder="Enter values separated by commas"
         />

@@ -17,20 +17,20 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'admissionMode',
     label: 'Admission Mode',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.nativeEnum(AdmissionMode).default(AdmissionMode.OFFLINE)
   },
   {
     name: 'dateOfEnquiry',
     label: 'Date of Enquiry',
     isDisabled: true,
-    style: 'col-span-3 border-none',
+    style: 'col-span-1 border-none',
     zodSchema: z.string()
   },
   {
     name: 'studentName',
     label: 'Student Name',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z
       .string({ required_error: 'Student Name is required' })
       .nonempty('Student Name is required')
@@ -38,26 +38,26 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'studentPhoneNumber',
     label: 'Student Phone Number',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: contactNumberSchema
   },
 
   {
     name: 'emailId',
     label: 'Email ID',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.string().email('Invalid email format').optional()
   },
   {
     name: 'gender',
     label: 'Gender',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.nativeEnum(Gender).default(Gender.NOT_TO_MENTION)
   },
   {
     name: 'fatherName',
     label: 'Father Name',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z
       .string({ required_error: 'Father Name is required' })
       .nonempty("Father's Name is required")
@@ -65,13 +65,13 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'fatherPhoneNumber',
     label: 'Father Phone Number',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: contactNumberSchema
   },
   {
     name: 'fatherOccupation',
     label: 'Father Occupation',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z
       .string({ required_error: 'Father occupation is required' })
       .nonempty('Father occupation is required')
@@ -79,7 +79,7 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'motherName',
     label: 'Mother Name',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z
       .string({ required_error: "Mother's Name is required" })
       .nonempty("Mother's Name is required")
@@ -87,13 +87,13 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'motherPhoneNumber',
     label: 'Mother Phone Number',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: contactNumberSchema
   },
   {
     name: 'motherOccupation',
     label: 'Mother Occupation',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z
       .string({ required_error: 'Mother occupation is required' })
       .nonempty('Mother occupation is required')
@@ -101,31 +101,31 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'dateOfBirth',
     label: 'Date of Birth',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.date()
   },
   {
     name: 'category',
     label: 'Category',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.nativeEnum(Category)
   },
   {
     name: 'address',
     label: 'Address',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: addressSchema
   },
   {
     name: 'course',
     label: 'Course',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.nativeEnum(Course)
   },
   {
     name: 'reference',
     label: 'Reference',
-    style: 'col-span-2',
+    style: 'col-span-1',
     zodSchema: z.nativeEnum(AdmissionReference)
   }
 ];
