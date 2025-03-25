@@ -5,7 +5,7 @@ import { useForm, FieldValues, Path, Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 // Zod imports
-import { z, ZodOptional, ZodDefault, ZodEffects, ZodObject, ZodDate } from 'zod';
+import { z, ZodOptional, ZodDefault, ZodEffects } from 'zod';
 
 // UI Components
 import {
@@ -21,7 +21,6 @@ import {
 import { FormFieldInterface, FormSection } from './interface';
 import { FieldComponent } from './FieldComponent';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { JSX } from 'react';
 
 interface DynamicFormProps<T extends FieldValues> {
@@ -42,6 +41,7 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
     resolver: zodResolver(schema) as unknown as Resolver<T>
   });
 
+  
   const renderField = ({
     name,
     label,
@@ -49,8 +49,13 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
     zodSchema,
     isDisabled
   }: FormFieldInterface): JSX.Element | null => {
+
     let fieldSchema = zodSchema;
 
+    /**
+     * Unwraps the Zod schema to its core type by traversing through optional, default, 
+     * and effect wrappers until the base schema is reached.
+    */
     while (
       fieldSchema instanceof ZodOptional ||
       fieldSchema instanceof ZodDefault ||
@@ -111,7 +116,9 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
             <h3 className="font-inter text-[16px] font-semibold">{title}</h3>
             
             {/* Fields */}
-            <div className="flex flex-row flex-wrap gap-2">{fields.map(renderField)}</div>
+            <div className="flex flex-row flex-wrap gap-2">
+              {fields.map(renderField)}
+            </div>
           
           </div>
         

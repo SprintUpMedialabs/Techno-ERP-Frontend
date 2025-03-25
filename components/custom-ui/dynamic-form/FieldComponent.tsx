@@ -1,3 +1,4 @@
+// UI Components
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -10,8 +11,12 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+
+// Utilities
 import logger from '@/lib/logger';
 import { format } from 'date-fns';
+
+// Types
 import { JSX } from 'react';
 import { ZodString } from 'zod';
 
@@ -28,12 +33,17 @@ const fieldComponents: Record<
   string,
   (props: Omit<FieldComponentProps, 'fieldType'>) => JSX.Element | null
 > = {
+  // String Field
   ZodString: ({ field, style, isDisabled }) => (
     <Input type="text" {...field} className={style} disabled={isDisabled} />
   ),
+
+  // Number Field
   ZodNumber: ({ field, style, isDisabled }) => (
     <Input type="number" {...field} className={style} disabled={isDisabled} />
   ),
+
+  // Boolean Field
   ZodBoolean: ({ field, isDisabled }) => (
     <Checkbox
       checked={field.value}
@@ -42,6 +52,8 @@ const fieldComponents: Record<
       disabled={isDisabled}
     />
   ),
+
+  // String based Enum Field
   ZodEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -62,6 +74,8 @@ const fieldComponents: Record<
         </SelectContent>
       </Select>
     ) : null,
+
+  // Custom Enum Field
   ZodNativeEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -82,24 +96,27 @@ const fieldComponents: Record<
         </SelectContent>
       </Select>
     ) : null,
-  ZodDate: ({ field, style, isDisabled, label }) =>
-    (
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className={`w-[407px] ${style}`} disabled={isDisabled}>
-            {field.value ? format(field.value, 'PPP') : `Pick a ${label}`}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <Calendar
-            mode="single"
-            selected={field.value}
-            onSelect={(date) => field.onChange(date || undefined)}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
-    ),
+
+  // Date Field
+  ZodDate: ({ field, style, isDisabled, label }) => (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className={`w-[407px] ${style}`} disabled={isDisabled}>
+          {field.value ? format(field.value, 'PPP') : `Pick a ${label}`}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <Calendar
+          mode="single"
+          selected={field.value}
+          onSelect={(date) => field.onChange(date || undefined)}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  ),
+
+  // Array Field
   ZodArray: ({ field, fieldSchema, style, isDisabled }) => {
     if (fieldSchema?._def?.type instanceof ZodString) {
       return (
