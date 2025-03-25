@@ -4,7 +4,7 @@ import { HoverContext } from '../custom-ui/sidebar/hover-context';
 import TechnoSidebar from '../custom-ui/sidebar/techno-sidebar';
 import { SidebarProvider, useSidebarContext } from '../custom-ui/sidebar/sidebar-context';
 import CRMLayout from './crm-layout';
-import EnquiryForm from '../custom-ui/enquiry-forms/student-details/EnquiryForm';
+import EnquiryForm from '../custom-ui/enquiry-forms/EnquiryForm';
 
 export default function AppLayout() {
     const [hovered, setHovered] = useState<boolean>(false);

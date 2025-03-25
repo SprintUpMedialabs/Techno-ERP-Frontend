@@ -1,6 +1,5 @@
 import React from 'react'
-import DynamicForm from './DynamicForm'
-import { enquirySchema } from './schema'
+import DynamicForm from '../dynamic-form/DynamicForm'
 import logger from '@/lib/logger';
 import { EnquiryFormFields } from './fields';
 
