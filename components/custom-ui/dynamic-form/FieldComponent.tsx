@@ -25,7 +25,7 @@ interface FieldComponentProps {
   fieldType: string;
   field: any;
   fieldSchema?: any;
-  style?: string;
+  fieldClass?: string;
   isDisabled?: boolean;
   label?: string;
 }
@@ -34,31 +34,32 @@ const fieldComponents: Record<
   string,
   (props: Omit<FieldComponentProps, 'fieldType'>) => JSX.Element | null
 > = {
+  
   // String Field
-  ZodString: ({ field, style, isDisabled }) => (
-    <Input type="text" {...field}  className={`w-[407px] ${style}`} disabled={isDisabled} />
+  ZodString: ({ field, fieldClass, isDisabled }) => (
+    <Input type="text" {...field}  className={fieldClass} disabled={isDisabled} />
   ),
 
   // Number Field
-  ZodNumber: ({ field, style, isDisabled }) => (
-    <Input type="number" {...field}  className={`w-[407px] ${style}`} disabled={isDisabled} />
+  ZodNumber: ({ field, fieldClass, isDisabled }) => (
+    <Input type="number" {...field}  className={fieldClass} disabled={isDisabled} />
   ),
 
   // Boolean Field
-  ZodBoolean: ({ field, style, isDisabled }) => (
+  ZodBoolean: ({ field, fieldClass, isDisabled }) => (
     <Checkbox
       checked={field.value}
       onCheckedChange={field.onChange}
-      className={`w-[407px] ${style}`}
+      className={`fieldClass`}
       disabled={isDisabled}
     />
   ),
 
   // String based Enum Field
-  ZodEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
+  ZodEnum: ({ field, fieldSchema, fieldClass, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <SelectTrigger  className={`w-[407px] ${style}`} disabled={isDisabled}>
+        <SelectTrigger  className={fieldClass} disabled={isDisabled}>
           <SelectValue placeholder={`Select ${label}`} />
         </SelectTrigger>
         <SelectContent>
@@ -66,7 +67,6 @@ const fieldComponents: Record<
             <SelectItem
               key={option as string}
               value={option as string}
-              className={style}
               disabled={isDisabled}
             >
               {option as string}
@@ -77,10 +77,10 @@ const fieldComponents: Record<
     ) : null,
 
   // Custom Enum Field
-  ZodNativeEnum: ({ field, fieldSchema, style, isDisabled, label }) =>
+  ZodNativeEnum: ({ field, fieldSchema, fieldClass, isDisabled, label }) =>
     fieldSchema?._def?.values ? (
       <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <SelectTrigger  className={`w-[407px] ${style}`} disabled={isDisabled}>
+        <SelectTrigger  className={fieldClass} disabled={isDisabled}>
           <SelectValue placeholder={`Select ${label}`} />
         </SelectTrigger>
         <SelectContent>
@@ -88,7 +88,7 @@ const fieldComponents: Record<
             <SelectItem
               key={option as string}
               value={option as string}
-              className={style}
+              className={fieldClass}
               disabled={isDisabled}
             >
               {option as string}
@@ -99,11 +99,19 @@ const fieldComponents: Record<
     ) : null,
 
   // Date Field
-  ZodDate: ({ field, style, isDisabled, label }) => (
+  ZodDate: ({ field, fieldClass, isDisabled, label }) => (
     <Popover>
       <PopoverTrigger asChild>
-        <Button icon={CalendarDaysIcon} variant="outline" className={`w-[407px] ${style}`} disabled={isDisabled}>
-          {field.value ? format(field.value, 'dd MMM yyyy') : label}
+        <Button
+          variant='outline'
+          className={`${fieldClass} justify-between bg-inherit`}
+          disabled={isDisabled}
+        >
+        
+          <span>{field.value ? format(field.value, 'dd/MM/yyyy') : label}</span>
+        
+          <CalendarDaysIcon size={16} className="ml-2" />
+        
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -118,14 +126,14 @@ const fieldComponents: Record<
   ),
 
   // Array Field
-  ZodArray: ({ field, fieldSchema, style, isDisabled }) => {
+  ZodArray: ({ field, fieldSchema, fieldClass, isDisabled }) => {
     if (fieldSchema?._def?.type instanceof ZodString) {
       return (
         <Input
           type="text"
           value={field.value ? field.value.join(', ') : ''}
           onChange={(e) => field.onChange(e.target.value.split(',').map((item) => item.trim()))}
-          className={`w-[407px] ${style}`}
+          className={fieldClass}
           disabled={isDisabled}
           placeholder="Enter values separated by commas"
         />
@@ -137,6 +145,7 @@ const fieldComponents: Record<
 };
 
 export const FieldComponent: React.FC<FieldComponentProps> = ({ fieldType, ...props }) => {
+  
   const Component = fieldComponents[fieldType];
 
   if (!Component) {

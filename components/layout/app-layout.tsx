@@ -5,6 +5,7 @@ import TechnoSidebar from '../custom-ui/sidebar/techno-sidebar';
 import { SidebarProvider, useSidebarContext } from '../custom-ui/sidebar/sidebar-context';
 import CRMLayout from './crm-layout';
 import EnquiryForm from '../custom-ui/enquiry-forms/EnquiryForm';
+import AdmissionLayout from './admission-process-layout';
 
 export default function AppLayout() {
     const [hovered, setHovered] = useState<boolean>(false);
@@ -41,7 +42,7 @@ function ContentRenderer() {
         case 'Marketing':
             return <CRMLayout />;
         case 'Admissions':
-            return <EnquiryForm />;
+            return <AdmissionLayout />;
         default:
             return <div>Default Page</div>;
     }
