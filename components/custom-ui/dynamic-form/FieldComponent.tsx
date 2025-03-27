@@ -25,6 +25,7 @@ interface FieldComponentProps {
   fieldType: string;
   field: any;
   fieldSchema?: any;
+  placeholder?: string;
   fieldClass?: string;
   isDisabled?: boolean;
   label?: string;
@@ -36,23 +37,35 @@ const fieldComponents: Record<
 > = {
   
   // String Field
-  ZodString: ({ field, fieldClass, isDisabled }) => (
-    <Input type="text" {...field}  className={fieldClass} disabled={isDisabled} />
+  ZodString: ({ field, fieldClass, isDisabled, placeholder }) => (
+    <Input
+      placeholder={placeholder}
+      type="text" {...field} className={fieldClass} disabled={isDisabled} />
   ),
 
   // Number Field
-  ZodNumber: ({ field, fieldClass, isDisabled }) => (
-    <Input type="number" {...field}  className={fieldClass} disabled={isDisabled} />
+  ZodNumber: ({ field, fieldClass, isDisabled, placeholder }) => (
+    <Input
+      type="number"
+      placeholder={placeholder}
+      value={field.value || ''}
+      onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+      className={fieldClass}
+      disabled={isDisabled}
+    />
   ),
 
   // Boolean Field
-  ZodBoolean: ({ field, fieldClass, isDisabled }) => (
+  ZodBoolean: ({ field, fieldClass, isDisabled, label }) => (
+  <div className="flex items-center">
     <Checkbox
       checked={field.value}
       onCheckedChange={field.onChange}
-      className={`fieldClass`}
+      className={fieldClass}
       disabled={isDisabled}
     />
+    <label className={`ml-2 w-full`}>{label}</label>
+  </div>
   ),
 
   // String based Enum Field

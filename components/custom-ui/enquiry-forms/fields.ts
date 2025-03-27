@@ -1,19 +1,15 @@
 import {
   AdmissionMode,
   AdmissionReference,
-  AdmittedThrough,
-  ApplicationStatus,
-  BloodGroup,
   Category,
   Course,
   Gender,
-  Religion
 } from '@/common/constants/enums';
 import { contactNumberSchema } from '@/common/constants/schemas';
 import { z } from 'zod';
 import { FormFieldInterface, FormSection, FormSubSection } from '../dynamic-form/interface';
 
-const commonFieldClass = 'w-[407px] text-[#9D9D9D]';
+const commonFieldClass = 'w-[407px]';
 
 const StudentDetailsFields: FormFieldInterface[] = [
   {
@@ -26,7 +22,7 @@ const StudentDetailsFields: FormFieldInterface[] = [
   {
     name: 'dateOfEnquiry',
     label: 'Date of Enquiry',
-    isDisabled: true,
+    // isDisabled: true,
     itemClass: 'col-span-1 border-none',
     fieldClass: commonFieldClass + ' ' ,
     zodSchema: z.string()
@@ -147,6 +143,53 @@ const StudentDetailsFields: FormFieldInterface[] = [
     fieldClass: commonFieldClass + ' ',
     zodSchema: z.nativeEnum(AdmissionReference)
   }
+];
+
+const AddressDetailsFields: FormFieldInterface[] = [
+  {
+    name: 'addressLine1',
+    label: 'Address Line 1',
+    placeholder: 'Enter Address Line 1',
+    itemClass: 'col-span-2',
+    fieldClass: 'w-[847px]',
+    zodSchema: z.string()
+  },
+  {
+    name: 'addressLine2',
+    label: 'Address Line 2',
+    placeholder: 'Enter Address Line 2',
+    itemClass: 'col-span-2',
+    fieldClass: 'w-[847px]',
+    zodSchema: z.string().optional()
+  },
+  {
+    name: 'pincode',
+    label: 'Pincode',
+    itemClass: 'col-span-1 col-start-1',
+    fieldClass: commonFieldClass + ' ' ,
+    zodSchema: z.string().regex(/^[1-9][0-9]{5}$/, 'Pincode must be a 6-digit number starting with a non-zero digit')
+  },
+  {
+    name: 'district',
+    label: 'District',
+    itemClass: 'col-span-1',
+    fieldClass: commonFieldClass + ' ',
+    zodSchema: z.string()
+  },
+  {
+    name: 'state',
+    label: 'State',
+    itemClass: 'col-span-1 col-start-1',
+    fieldClass: commonFieldClass + ' ' ,
+    zodSchema: z.string()
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    itemClass: 'col-span-1',
+    fieldClass: commonFieldClass + ' ' ,
+    zodSchema: z.string()
+  },
 ];
 
 const AcademicDetailsFields10th: FormSubSection = {
@@ -295,6 +338,27 @@ const AcademicDetailsFields: FormSubSection[] = [
 
 const OtherDetailsFields: FormFieldInterface[] = [
   {
+    name: 'counsellorName',
+    label: 'Counsellor’s Name',
+    itemClass: 'col-span-1',
+    fieldClass: commonFieldClass + ' ',
+    zodSchema: z.string().optional()
+  },
+  {
+    name: 'telecallerName',
+    label: 'Telecaller’s Name',
+    itemClass: 'col-span-1',
+    fieldClass: commonFieldClass + ' ',
+    zodSchema: z.string().optional()
+  },
+  {
+    name: 'date',
+    label: 'Date',
+    itemClass: 'col-span-1 col-start-1',
+    fieldClass: commonFieldClass + ' ',
+    zodSchema: z.date()
+  },
+  {
     name: 'remarks',
     label: 'Remarks',
     itemClass: 'col-span-1',
@@ -307,6 +371,10 @@ export const EnquiryFormFields = [
   {
     title: 'Student Details',
     fields: StudentDetailsFields
+  },
+  {
+    title: 'Address Details',
+    fields: AddressDetailsFields
   },
   {
     title: 'Academic Details',

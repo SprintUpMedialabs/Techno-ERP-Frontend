@@ -13,7 +13,9 @@ export default function TechnoRightDrawer({ title, isOpen, onClose, children }: 
             <aside className="fixed right-0 top-0 h-full w-[439px] bg-white shadow-lg overflow-y-auto transition-all duration-300">
                 <div className="flex h-[64px] px-[10px] py-[12px] gap-2 w-full items-center shadow-[0px_4px_10px_rgba(0,0,0,0.1)] ">
                     <button
+                        type='button'
                         onClick={onClose}
+                        title="Close drawer"
                         className="bg-[#F8F8F8] p-[6px] rounded-[5px] h-[28px] w-[28px] flex items-center justify-center"
                     >
                         <ChevronsLeft size={20}/>

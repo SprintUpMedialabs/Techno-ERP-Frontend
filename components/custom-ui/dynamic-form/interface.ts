@@ -14,6 +14,7 @@ export interface FormSubSection {
 export interface FormFieldInterface {
   name: string;
   label: string;
+  placeholder?: string;
   itemClass: string;
   fieldClass: string;
   isDisabled?: boolean;

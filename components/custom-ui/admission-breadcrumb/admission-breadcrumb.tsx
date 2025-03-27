@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
 import { useSidebarContext } from '../sidebar/sidebar-context';
-import { useTopHeaderContext } from '../top-header/top-header-context';
+import { useTopHeaderContext } from '../admission-top-header/admission-header-context';
 
 export default function AdmissionBreadCrumb() {
   const { sidebarActiveItem } = useSidebarContext();

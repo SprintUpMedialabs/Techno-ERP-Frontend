@@ -66,6 +66,7 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
   const renderField = ({
     name,
     label,
+    placeholder,
     itemClass,
     fieldClass,
     zodSchema,
@@ -108,6 +109,7 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
               <FieldComponent
                 fieldType={fieldType}
                 field={field}
+                placeholder={placeholder}
                 fieldSchema={fieldSchema}
                 fieldClass={fieldClass}
                 isDisabled={isDisabled}
@@ -129,17 +131,17 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
         {sections.map(({ title, fields }, index) => (
           <Accordion type="single" key={`section-${index}`} collapsible>
             <AccordionItem value={`item-${index}`} key={`item-${index}`}>
-              <div className="space-y-6">
-                <AccordionTrigger>
+              <div className="space-y-2">
+                <AccordionTrigger className="w-full items-center">
                   {/* Section Title */}
-                  <h3 className="font-inter text-[16px] font-semibold flex items-center">
-                    <span className="mr-2">{title}</span>
-                    <hr className="flex-grow border-t border-gray-400" />
+                  <h3 className="font-inter text-[16px] font-semibold">
+                  {title}
                   </h3>
+                  <hr className="flex-1 border-t border-[#DADADA] ml-2" />
                 </AccordionTrigger>
 
                 <AccordionContent>
-                  <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-y-4">
+                  <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-y-4 bg-white p-4 rounded-[10px]">
                     {fields.map((field, fieldIndex) => (
                       <React.Fragment key={`field-${fieldIndex}`}>
                         {isFormSubSection(field) ? (
@@ -152,11 +154,11 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
 
                             {/* Fields under the subheading */}
 
-                              {field.fields.map((subField, subFieldIndex) => (
-                                <React.Fragment key={`subField-${subField.name}-${subFieldIndex}`}>
-                                  {renderField(subField)}
-                                </React.Fragment>
-                              ))}
+                            {field.fields.map((subField, subFieldIndex) => (
+                              <React.Fragment key={`subField-${subField.name}-${subFieldIndex}`}>
+                                {renderField(subField)}
+                              </React.Fragment>
+                            ))}
                           </div>
                         ) : isFormField(field) ? (
                           renderField(field)
@@ -169,6 +171,26 @@ const DynamicForm = <T extends FieldValues>({ sections, onSubmit }: DynamicFormP
             </AccordionItem>
           </Accordion>
         ))}
+
+        {/* Confirmation Check box */}
+        <FormField
+          control={form.control}
+          name={'confirmation' as Path<T>}
+          render={({ field }) => (
+            <FormItem className="cols-span-3">
+              <FormControl>
+                <FieldComponent
+                  fieldType="ZodBoolean"
+                  field={field}
+                  fieldSchema={z.boolean()}
+                  fieldClass="h-4 w-4"
+                  isDisabled={false}
+                  label="All the above information has been verified by the applicant and thoroughly check by the Admissions team."
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         {/* Sticky Footer */}
         <div className="fixed bottom-0 w-full bg-white shadow-md p-4 border-t flex justify-between items-center">
