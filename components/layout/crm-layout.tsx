@@ -2,61 +2,33 @@
 
 import TechnoTopHeader from '../custom-ui/top-header/techno-top-header';
 import TechnoBreadCrumb from '../custom-ui/breadcrump/techno-breadcrumb';
-import { TopHeaderProvider, useTopHeaderContext } from '../custom-ui/top-header/top-header-context';
-import TechnoPageTitle from '../custom-ui/page-title/techno-page-title';
 import { TechnoFilterProvider } from '../custom-ui/filter/filter-context';
-import AdminTracker from './admin-tracker/admin-tracker';
-import { AdminTrackerProvider } from './admin-tracker/admin-tracker-context';
-import AllLeadsPage from './allLeads/all-leads-page';
-import YellowLeadsTracker from './yellowLeads/yellow-leads-tracker';
+import { useEffect } from 'react';
+import { SIDEBAR_ITEMS } from '@/common/constants/sidebarItems';
+import { useSidebarContext } from '../custom-ui/sidebar/sidebar-context';
+import { SITE_MAP } from '@/common/constants/frontendRouting';
 
-const headerItem = [{ title: 'All Leads' }, { title: 'Yellow Leads' }, { title: 'Admin Tracker' }];
+const HEADER_ITEMS = {
+    ALL_LEADS: { title: "All Leads", route: SITE_MAP.MARKETING.ALL_LEADS },
+    YELLOW_LEADS: { title: "Yellow Leads", route: SITE_MAP.MARKETING.YELLOW_LEADS },
+    ADMIN_TRACKER: { title: "Admin Tracker", route: SITE_MAP.MARKETING.ADMIN_TRACKER }
+};
 
-export default function CRMLayout() {
-  return (
-    <TopHeaderProvider>
-      <CRMContent />
-    </TopHeaderProvider>
-  );
-}
 
-function CRMContent() {
-  return (
-    <>
-      <TechnoTopHeader headerItems={headerItem} />
-      <div className="flex flex-col px-4 gap-4">
-        <TechnoBreadCrumb />
-        <ContentRenderer />
-      </div>
-    </>
-  );
-}
-
-function ContentRenderer() {
-  const { headerActiveItem } = useTopHeaderContext();
-
-  switch (headerActiveItem) {
-    case 'All Leads':
-      return (
-        <TechnoFilterProvider key="all-leads">
-          <AllLeadsPage />
-        </TechnoFilterProvider>
-      );
-    case 'Yellow Leads':
-      return (
-        <TechnoFilterProvider key="yellow-leads">
-          <YellowLeadsTracker />
-        </TechnoFilterProvider>
-      );
-    case 'Admin Tracker':
-      return (
-        <TechnoFilterProvider key="admin-tracker">
-          <AdminTrackerProvider key="admin-tracker">
-            <AdminTracker />
-          </AdminTrackerProvider>
-        </TechnoFilterProvider>
-      );
-    default:
-      return <div>Default Page</div>;
-  }
+export default function CRMLayout({ children }: { children: React.ReactNode }) {
+    const { setSidebarActiveItem } = useSidebarContext()
+    useEffect(() => {
+        setSidebarActiveItem(SIDEBAR_ITEMS.MARKETING)
+    }, []);
+    return (
+        <>
+            <TechnoTopHeader headerItems={HEADER_ITEMS} />
+            <div className="flex flex-col px-4 gap-4">
+                <TechnoBreadCrumb />
+                <TechnoFilterProvider>
+                    {children}
+                </TechnoFilterProvider>
+            </div>
+        </>
+    );
 }

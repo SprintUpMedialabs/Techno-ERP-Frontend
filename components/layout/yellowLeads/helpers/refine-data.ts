@@ -1,7 +1,8 @@
 import { CardItem } from '@/components/custom-ui/analytic-card/techno-analytic-cards-group';
 import { CampusVisitStatus } from '../campus-visit-tag';
-import { FinalConversionStatus, toPascal } from '../final-conversion-tag';
-import { Course, CourseNameMapper } from '@/static/enum';
+import { FinalConversionStatus } from '../final-conversion-tag';
+import { Course, CourseNameMapper } from '@/types/enum';
+import { toPascal } from '@/lib/utils';
 
 export const refineLeads = (data: any, assignedToDropdownData: any) => {
   const refinedLeads = data.yellowLeads?.map((lead: any, index: number) => {
@@ -51,11 +52,11 @@ export const refineLeads = (data: any, assignedToDropdownData: any) => {
 };
 
 export const refineAnalytics = (analytics: any) => {
-  const totalLeads = analytics.totalLeads ?? 0;
+  const allLeadsCount = analytics.allLeadsCount ?? 0;
 
   const calculatePercentage = (count: number) => {
-    if (totalLeads === 0) return '0%';
-    return `${Math.round((count / totalLeads) * 100)}%`;
+    if (allLeadsCount === 0) return '0%';
+    return `${Math.round((count / allLeadsCount) * 100)}%`;
   };
   const analyticsCardsData: CardItem[] = [
     {
